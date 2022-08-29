@@ -17,7 +17,7 @@ export default () => {
   const state = {
     status: 'filling', // correct(succes, failure), incorrect
     error: null,
-    links: null,
+    links: [],
     posts: [],
   };
 
@@ -29,15 +29,15 @@ export default () => {
   });
 
   const watchedState = createWatchedState(state, elements, i18nInstance);
-
+  // При вызове валидации пробрасывать туда не только url, но и список уже загруженных
   elements.form.addEventListener('submit', (e) => {
     e.preventDefault();
     watchedState.status = 'filling';
     const formData = new FormData(e.target);
-    const enteredUrl = formData.get('url').trim();
-    const schema = yup.string().url(); // .notOneOf(watchedState.links)
+    const enteredValue = formData.get('url').trim();
+    const schema = yup.string().url().notOneOf(watchedState.links);
     schema
-      .validate(enteredUrl)
+      .validate(enteredValue, watchedState.links)
       .then((url) => {
         watchedState.links = url;
         watchedState.error = null;
