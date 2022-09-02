@@ -1,8 +1,9 @@
 const getFeeds = (document) => {
   const title = document.querySelector('title').textContent;
   const description = document.querySelector('description').textContent;
+  const link = document.querySelector('link').textContent;
 
-  return { title, description };
+  return { title, description, link };
 };
 
 const getPosts = (document) => {
@@ -23,11 +24,10 @@ const getPosts = (document) => {
 
 export default (responce) => {
   const parser = new DOMParser();
-  const parsedDocument = parser.parseFromString(responce.data.contents, 'application/xml');
+  const parsedDocument = parser.parseFromString(responce.data.contents, 'text/xml');
   const error = parsedDocument.querySelector('parseererror');
 
   if (error) {
-    // watchedState.error = error;
     throw new Error();
   }
 
@@ -36,11 +36,3 @@ export default (responce) => {
     posts: getPosts(parsedDocument),
   };
 };
-// const posts = {
-//   feeds: { title, description },
-//   posts: [post: {
-//     title,
-//     link,
-//     description,
-//   }, post...],
-// };

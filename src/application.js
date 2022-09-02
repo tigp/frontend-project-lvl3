@@ -9,15 +9,17 @@ const elements = {
   input: document.querySelector('#url-input'),
   button: document.querySelector('[type="submit"]'),
   feedback: document.querySelector('.feedback'),
-  posts: document.querySelector('.posts'),
   feeds: document.querySelector('.feeds'),
+  posts: document.querySelector('.posts'),
 };
 
 export default () => {
   const state = {
     status: 'filling', // correct(succes, failure), incorrect
     error: null,
+    enteredValue: null,
     links: [],
+    feeds: [],
     posts: [],
   };
 
@@ -29,24 +31,37 @@ export default () => {
   });
 
   const watchedState = createWatchedState(state, elements, i18nInstance);
-  // При вызове валидации пробрасывать туда не только url, но и список уже загруженных
+
+  yup.setLocale({
+    mixed: {
+      notOneOf: 'notOneOf',
+    },
+    string: {
+      url: 'invalidURL',
+    },
+  });
+
   elements.form.addEventListener('submit', (e) => {
     e.preventDefault();
     watchedState.status = 'filling';
     const formData = new FormData(e.target);
-    const enteredValue = formData.get('url').trim();
+    watchedState.enteredValue = formData.get('url').trim();
     const schema = yup.string().url().notOneOf(watchedState.links);
+    // const schema = yup.object({
+    //   url: yup.string().required().url().notOneOf(watchedState.links),
+    // });
     schema
-      .validate(enteredValue, watchedState.links)
+      .validate(watchedState.enteredValue)
       .then((url) => {
-        watchedState.links = url;
+        watchedState.links.push(url);
         watchedState.error = null;
         watchedState.status = 'correct';
         loader(watchedState);
       })
       .catch((error) => {
-        watchedState.error = error;
+        watchedState.error = i18nInstance.t(`errors.${error.message}`);
         watchedState.status = 'incorrect';
+        console.log(error.message);
       });
   });
 };

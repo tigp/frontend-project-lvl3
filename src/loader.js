@@ -9,19 +9,17 @@ const getProxiedURL = (url) => {
 };
 
 export default (watchedState) => {
-  const url = watchedState.links;
-  const proxiedURL = getProxiedURL(url);
-
+  const proxiedURL = getProxiedURL(watchedState.enteredValue);
   axios
     .get(proxiedURL)
     .then((responce) => {
+      const { feeds, posts } = parser(responce);
       watchedState.status = 'success';
-      watchedState.posts.push(parser(responce));
-      console.log(watchedState.status);
+      watchedState.feeds.push(feeds);
+      watchedState.posts.push(posts);
     })
     .catch((error) => {
       watchedState.status = 'failure';
       watchedState.error = error;
-      console.log(watchedState.error);
     });
 };
