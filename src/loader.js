@@ -19,6 +19,9 @@ export default (watchedState) => {
       watchedState.posts.push(posts);
     })
     .catch((error) => {
+      // if (error.isParsingError) {
+      //   watchedState.error = 'parsingError';
+      // }
       watchedState.status = 'failure';
       watchedState.error = error;
     });

@@ -61,7 +61,6 @@ export default () => {
       .catch((error) => {
         watchedState.error = i18nInstance.t(`errors.${error.message}`);
         watchedState.status = 'incorrect';
-        console.log(error.message);
       });
   });
 };
