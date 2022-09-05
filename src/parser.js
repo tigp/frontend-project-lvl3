@@ -26,12 +26,10 @@ export default (responce) => {
   const parser = new DOMParser();
   const parsedDocument = parser.parseFromString(responce.data.contents, 'text/xml');
   const error = parsedDocument.querySelector('parseererror');
-
   if (error) {
-    // const err = new Error();
-    // err.isParsingError = true;
-    // throw err;
-    throw new Error();
+    const err = new Error();
+    err.isParsingError = true;
+    throw err;
   }
 
   return {
