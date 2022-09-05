@@ -5,13 +5,12 @@ import feedsRender from './renders/feeds-render.js';
 import postsRender from './renders/posts-render.js';
 
 export default (state, elements, i18nInstance) => onChange(state, (path, value) => {
-  const { error } = state;
   switch (path) {
     case 'status':
-      formRender(value, elements, i18nInstance, error);
+      formRender(value, elements, i18nInstance);
       break;
     case 'error':
-      errorRender(value, elements)
+      errorRender(value, elements, i18nInstance);
       break;
     case 'feeds':
       feedsRender(value, elements, i18nInstance);

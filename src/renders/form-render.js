@@ -1,4 +1,4 @@
-export default (status, elements, i18nInstance, error) => {
+export default (status, elements, i18nInstance) => {
   if (status === 'correct') {
     elements.input.classList.remove('is-invalid');
     elements.feedback.classList.replace('text-danger', 'text-success');
