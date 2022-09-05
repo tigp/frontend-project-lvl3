@@ -2,7 +2,7 @@ import * as yup from 'yup';
 import i18next from 'i18next';
 import createWatchedState from './view.js';
 import resources from './locales/index.js';
-import loader from './loader.js';
+import { loadingPosts, updatingPosts } from './loader.js';
 
 const elements = {
   form: document.querySelector('.rss-form '),
@@ -17,7 +17,6 @@ export default () => {
   const state = {
     status: 'filling', // correct(succes, failure), incorrect
     error: null,
-    enteredValue: null,
     links: [],
     feeds: [],
     posts: [],
@@ -45,22 +44,21 @@ export default () => {
     e.preventDefault();
     watchedState.status = 'filling';
     const formData = new FormData(e.target);
-    watchedState.enteredValue = formData.get('url').trim();
+    const enteredValue = formData.get('url').trim();
     const schema = yup.string().url().notOneOf(watchedState.links);
-    // const schema = yup.object({
-    //   url: yup.string().required().url().notOneOf(watchedState.links),
-    // });
     schema
-      .validate(watchedState.enteredValue)
+      .validate(enteredValue)
       .then((url) => {
         watchedState.links.push(url);
         watchedState.error = null;
         watchedState.status = 'correct';
-        loader(watchedState);
+        loadingPosts(enteredValue, watchedState);
       })
       .catch((error) => {
-        watchedState.error = i18nInstance.t(`errors.${error.message}`);
+        watchedState.error = error.message;
         watchedState.status = 'incorrect';
       });
   });
+
+  updatingPosts(watchedState);
 };
