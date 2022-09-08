@@ -17,7 +17,6 @@ export default () => {
   const state = {
     status: 'filling', // correct(succes, failure), incorrect
     error: null,
-    links: [],
     feeds: [],
     posts: [],
   };
@@ -45,14 +44,14 @@ export default () => {
     watchedState.status = 'filling';
     const formData = new FormData(e.target);
     const enteredValue = formData.get('url').trim();
-    const schema = yup.string().url().notOneOf(watchedState.links);
+    const links = watchedState.feeds.map(({ url }) => url);
+    const schema = yup.string().url().notOneOf(links);
     schema
       .validate(enteredValue)
       .then((url) => {
-        watchedState.links.push(url);
         watchedState.error = null;
         watchedState.status = 'correct';
-        loadingPosts(enteredValue, watchedState);
+        loadingPosts(url, watchedState);
       })
       .catch((error) => {
         watchedState.error = error.message;

@@ -1,9 +1,8 @@
 const getFeeds = (document) => {
   const title = document.querySelector('title').textContent;
   const description = document.querySelector('description').textContent;
-  const link = document.querySelector('link').textContent;
 
-  return { title, description, link };
+  return { title, description };
 };
 
 const getPosts = (document) => {
@@ -33,7 +32,7 @@ export default (responce) => {
   }
 
   return {
-    feeds: getFeeds(parsedDocument),
+    feed: getFeeds(parsedDocument),
     posts: getPosts(parsedDocument),
   };
 };
