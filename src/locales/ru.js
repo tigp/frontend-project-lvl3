@@ -1,14 +1,17 @@
 export default {
   translation: {
     errors: {
-      invalidURL: 'Ссылка должна быть валидным URL',
       notOneOf: 'RSS уже существует',
-      parsingError: 'Ресурс не содержит валидный RSS',
+      required: 'Не должно быть пустым',
+      invalidURL: 'Ссылка должна быть валидным URL',
+      parsingError: 'Ресурс не содержит валидный RSS', // !!!!dosn't work rigth now
+      networkError: 'Ошибка сети', // !!!!dosn't work rigth now
       unknown: 'Неизвестная ошибка',
     },
     validRSS: 'RSS успешно загружен',
     feeds: 'Фиды',
     posts: 'Посты',
     button: 'Просмотр',
+    loading: 'Загружаем...',
   },
 };

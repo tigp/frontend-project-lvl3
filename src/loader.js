@@ -2,18 +2,6 @@ import axios from 'axios';
 import _, { uniqueId } from 'lodash';
 import parser from './parser.js';
 
-// const createUniquePosts = (watchedState, posts) => {
-//   if (watchedState.posts.length === 0) {
-//     watchedState.posts.push(posts.flat());
-//     return;
-//   }
-
-//   watchedState.posts.concat(posts.flat());
-//   const uniqPosts = _.uniqBy(watchedState.posts, 'title');
-//   watchedState.posts = uniqPosts;
-//   // console.log(uniqPosts);
-// };
-
 const getProxiedURL = (url) => {
   const proxiedURL = new URL('https://allorigins.hexlet.app/get');
   proxiedURL.searchParams.set('disableCache', true);
@@ -26,21 +14,24 @@ const loadingPosts = (url, watchedState) => {
   axios
     .get(proxiedURL)
     .then((responce) => {
+      watchedState.status = 'added';
       const { feed, posts } = parser(responce);
-      watchedState.status = 'success';
       feed.url = url;
       feed.id = uniqueId();
       watchedState.feeds.push(feed);
       watchedState.posts.push(posts);
-      //createUniquePosts(watchedState, posts);
     })
     .catch((error) => {
-      if (error.isParsingError) {
+      watchedState.status = 'error';
+      if (error.isParsingError === true) {
+        console.log(`parsingError: ${error.message}`);
         watchedState.error = 'parsingError';
+      } else if (error.isAxiosError) {
+        watchedState.error = 'networkError';
       } else {
-        watchedState.error = 'unknow';
+        console.log(`unknown: ${error.message}`);
+        watchedState.error = 'unknown';
       }
-      watchedState.status = 'incorrect';
     });
 };
 

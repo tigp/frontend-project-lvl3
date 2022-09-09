@@ -15,10 +15,14 @@ const elements = {
 
 export default () => {
   const state = {
-    status: 'filling', // correct(succes, failure), incorrect
+    status: 'filling', // -> loading -> added || error
     error: null,
     feeds: [],
     posts: [],
+    uiState: {
+      viewedPostsId: new Set(),
+      postId: null, // ?????
+    },
   };
 
   const i18nInstance = i18next.createInstance();
@@ -33,6 +37,7 @@ export default () => {
   yup.setLocale({
     mixed: {
       notOneOf: 'notOneOf',
+      required: 'required',
     },
     string: {
       url: 'invalidURL',
@@ -45,17 +50,17 @@ export default () => {
     const formData = new FormData(e.target);
     const enteredValue = formData.get('url').trim();
     const links = watchedState.feeds.map(({ url }) => url);
-    const schema = yup.string().url().notOneOf(links);
+    const schema = yup.string().required().url().notOneOf(links);
     schema
       .validate(enteredValue)
       .then((url) => {
+        watchedState.status = 'loading';
         watchedState.error = null;
-        watchedState.status = 'correct';
         loadingPosts(url, watchedState);
       })
       .catch((error) => {
+        watchedState.status = 'error';
         watchedState.error = error.message;
-        watchedState.status = 'incorrect';
       });
   });
 
