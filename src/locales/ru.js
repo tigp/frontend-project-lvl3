@@ -4,8 +4,8 @@ export default {
       notOneOf: 'RSS уже существует',
       required: 'Не должно быть пустым',
       invalidURL: 'Ссылка должна быть валидным URL',
-      parsingError: 'Ресурс не содержит валидный RSS', // !!!!dosn't work rigth now
-      networkError: 'Ошибка сети', // !!!!dosn't work rigth now
+      parsingError: 'Ресурс не содержит валидный RSS',
+      networkError: 'Ошибка сети',
       unknown: 'Неизвестная ошибка',
     },
     validRSS: 'RSS успешно загружен',

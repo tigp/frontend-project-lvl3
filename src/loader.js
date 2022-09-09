@@ -23,13 +23,11 @@ const loadingPosts = (url, watchedState) => {
     })
     .catch((error) => {
       watchedState.status = 'error';
-      if (error.isParsingError === true) {
-        console.log(`parsingError: ${error.message}`);
+      if (error.isParsingError) {
         watchedState.error = 'parsingError';
       } else if (error.isAxiosError) {
         watchedState.error = 'networkError';
       } else {
-        console.log(`unknown: ${error.message}`);
         watchedState.error = 'unknown';
       }
     });
