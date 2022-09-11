@@ -1,4 +1,6 @@
-export default (posts, elements, i18nInstance) => {
+import _ from 'lodash';
+
+export default (watchedState, elements, i18nInstance) => {
   elements.posts.textContent = '';
   const mainDiv = document.createElement('div');
   const divForH2 = document.createElement('div');
@@ -16,17 +18,19 @@ export default (posts, elements, i18nInstance) => {
   mainDiv.append(divForH2, ul);
   divForH2.append(h2);
 
-  posts.flat().forEach(({ title, link }) => {
+  const sortedPostsByTime = _.reverse(_.sortBy(watchedState.posts.flat(), (post) => Date.parse(post.pubDate)));
+
+  sortedPostsByTime.forEach((post) => {
     const li = document.createElement('li');
     const a = document.createElement('a');
     const button = document.createElement('button');
 
-    a.setAttribute('href', link);
-    a.setAttribute('data-id', '2');
+    a.setAttribute('href', post.link);
+    a.setAttribute('data-id', `${post.id}`);
     a.setAttribute('target', '_blank');
     a.setAttribute('rel', 'noopener noreferrer');
     button.setAttribute('type', 'button');
-    button.setAttribute('data-id', '2');
+    button.setAttribute('data-id', `${post.id}`);
     button.setAttribute('data-bs-toggle', 'modal');
     button.setAttribute('data-bs-target', '#modal');
 
@@ -34,10 +38,15 @@ export default (posts, elements, i18nInstance) => {
     a.classList.add('fw-bold');
     button.classList.add('btn', 'btn-outline-primary', 'btn-sm');
 
-    a.textContent = title;
+    a.textContent = post.title;
     button.textContent = i18nInstance.t('button');
 
     ul.append(li);
     li.append(a, button);
+
+    button.addEventListener('click', () => {
+      watchedState.uiState.viewedPostsId.add(post.id);
+      watchedState.uiState.targetPostId = post.id;
+    });
   });
 };

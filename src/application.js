@@ -11,6 +11,9 @@ const elements = {
   feedback: document.querySelector('.feedback'),
   feeds: document.querySelector('.feeds'),
   posts: document.querySelector('.posts'),
+  modalTitle: document.querySelector('.modal-title'),
+  modalBody: document.querySelector('.modal-body'),
+  modalLink: document.querySelector('.full-article'),
 };
 
 export default () => {
@@ -21,7 +24,7 @@ export default () => {
     posts: [],
     uiState: {
       viewedPostsId: new Set(),
-      postId: null, // ?????
+      targetPostId: null,
     },
   };
 

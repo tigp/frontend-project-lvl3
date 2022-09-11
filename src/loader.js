@@ -1,5 +1,5 @@
 import axios from 'axios';
-import _, { uniqueId } from 'lodash';
+import { uniqueId } from 'lodash';
 import parser from './parser.js';
 
 const getProxiedURL = (url) => {
@@ -7,6 +7,13 @@ const getProxiedURL = (url) => {
   proxiedURL.searchParams.set('disableCache', true);
   proxiedURL.searchParams.set('url', url);
   return proxiedURL;
+};
+
+const addUniqIdForPosts = (posts, feedId) => {
+  posts.forEach((post) => {
+    post.feedId = feedId;
+    post.id = uniqueId();
+  });
 };
 
 const loadingPosts = (url, watchedState) => {
@@ -18,6 +25,7 @@ const loadingPosts = (url, watchedState) => {
       const { feed, posts } = parser(responce);
       feed.url = url;
       feed.id = uniqueId();
+      addUniqIdForPosts(posts, feed.id);
       watchedState.feeds.push(feed);
       watchedState.posts.push(posts);
     })

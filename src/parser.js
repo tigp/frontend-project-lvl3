@@ -14,10 +14,10 @@ const getPosts = (document) => {
       title: item.querySelector('title').textContent,
       link: item.querySelector('link').textContent,
       description: item.querySelector('description').textContent,
+      pubDate: item.querySelector('pubDate').textContent,
     };
     posts.push(post);
   });
-
   return posts;
 };
 
