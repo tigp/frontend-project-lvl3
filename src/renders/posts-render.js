@@ -18,33 +18,39 @@ export default (watchedState, elements, i18nInstance) => {
   mainDiv.append(divForH2, ul);
   divForH2.append(h2);
 
-  const sortedPostsByTime = _.reverse(_.sortBy(watchedState.posts.flat(), (post) => Date.parse(post.pubDate)));
+  const sortedPosts = _.reverse(_.sortBy(watchedState.posts.flat(), (p) => Date.parse(p.pubDate)));
 
-  sortedPostsByTime.forEach((post) => {
+  sortedPosts.forEach((post) => {
     const li = document.createElement('li');
-    const a = document.createElement('a');
+    const link = document.createElement('a');
     const button = document.createElement('button');
 
-    a.setAttribute('href', post.link);
-    a.setAttribute('data-id', `${post.id}`);
-    a.setAttribute('target', '_blank');
-    a.setAttribute('rel', 'noopener noreferrer');
+    link.setAttribute('href', post.link);
+    link.setAttribute('data-id', `${post.id}`);
+    link.setAttribute('target', '_blank');
+    link.setAttribute('rel', 'noopener noreferrer');
     button.setAttribute('type', 'button');
     button.setAttribute('data-id', `${post.id}`);
     button.setAttribute('data-bs-toggle', 'modal');
     button.setAttribute('data-bs-target', '#modal');
 
     li.classList.add('list-group-item', 'd-flex', 'justify-content-between', 'align-items-start', 'border-0', 'border-end-0');
-    a.classList.add('fw-bold');
+
+    if (watchedState.uiState.viewedPostsId.has(post.id)) {
+      link.classList.add('fw-normal', 'link-secondary');
+    } else {
+      link.classList.add('fm-bold');
+    }
+
     button.classList.add('btn', 'btn-outline-primary', 'btn-sm');
 
-    a.textContent = post.title;
+    link.textContent = post.title;
     button.textContent = i18nInstance.t('button');
 
     ul.append(li);
-    li.append(a, button);
+    li.append(link, button);
 
-    button.addEventListener('click', () => {
+    li.addEventListener('click', () => {
       watchedState.uiState.viewedPostsId.add(post.id);
       watchedState.uiState.targetPostId = post.id;
     });
