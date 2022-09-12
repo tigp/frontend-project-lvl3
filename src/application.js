@@ -18,7 +18,7 @@ const elements = {
 
 export default () => {
   const state = {
-    status: 'filling', // -> loading -> added || error
+    status: 'filling',
     error: null,
     feeds: [],
     posts: [],

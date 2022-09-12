@@ -4,7 +4,7 @@ export default (status, elements, i18nInstance) => {
       elements.button.disabled = true;
       elements.feedback.classList.replace('text-danger', 'text-success');
       elements.feedback.textContent = i18nInstance.t('loading');
-      elements.feedback.style.color = 'orange'; // why i can't do this?
+      elements.feedback.style.color = 'orange';
       break;
     case 'added':
       elements.button.disabled = false;
