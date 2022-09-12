@@ -11,7 +11,7 @@ module.exports = {
   devServer: {
     open: true,
     host: 'localhost',
-    },
+  },
   plugins: [new HtmlWebpackPlugin({ template: './index.html' })],
   module: {
     rules: [
@@ -20,8 +20,8 @@ module.exports = {
         type: 'asset',
       },
       {
-      test: /\.css$/,
-      use: ['style-loader', 'css-loader'],
+        test: /\.css$/,
+        use: ['style-loader', 'css-loader'],
       },
     ],
   },
