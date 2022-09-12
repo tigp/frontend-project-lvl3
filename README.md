@@ -8,9 +8,11 @@ This app can help to you reading favourite websites in [RSS format](https://en.w
 Checks entered links for new posts every 5 second and add to reading list.
 
 ### Installing:
-``git clone https://github.com/tigp/frontend-project-lvl3.git``
-``make install``
-``make start``
+```
+git clone https://github.com/tigp/frontend-project-lvl3.git
+make install
+make start
+```
 
 ### **Technologies used**:
 - Bootstrap
