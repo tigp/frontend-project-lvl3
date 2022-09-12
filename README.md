@@ -23,3 +23,5 @@ make start
 - yup validation
 - axios
 - i18next
+
+### [RSS aggregator](https://rss-app-tawny.vercel.app/)
