@@ -21,7 +21,7 @@ const loadingPosts = (url, watchedState) => {
   axios
     .get(proxiedURL)
     .then((responce) => {
-      watchedState.status = 'added';
+      watchedState.formState.status = 'added';
       const { feed, posts } = parser(responce);
       feed.url = url;
       feed.id = uniqueId();
@@ -30,13 +30,13 @@ const loadingPosts = (url, watchedState) => {
       watchedState.posts.push(posts);
     })
     .catch((error) => {
-      watchedState.status = 'error';
+      watchedState.formState.status = 'error';
       if (error.isParsingError) {
-        watchedState.error = 'parsingError';
+        watchedState.formState.error = 'parsingError';
       } else if (error.isAxiosError) {
-        watchedState.error = 'networkError';
+        watchedState.formState.error = 'networkError';
       } else {
-        watchedState.error = 'unknown';
+        watchedState.formState.error = 'unknown';
       }
     });
 };

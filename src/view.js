@@ -8,10 +8,10 @@ import modalRender from './renders/modal-render.js';
 export default (state, elements, i18nInstance) => {
   const watchedState = onChange(state, (path, value) => {
     switch (path) {
-      case 'status':
+      case 'formState.status':
         formRender(value, elements, i18nInstance);
         break;
-      case 'error':
+      case 'formState.error':
         errorRender(value, elements, i18nInstance);
         break;
       case 'feeds':

@@ -18,8 +18,10 @@ const elements = {
 
 export default () => {
   const state = {
-    status: 'filling',
-    error: null,
+    formState: {
+      status: 'filling',
+      error: null,
+    },
     feeds: [],
     posts: [],
     uiState: {
@@ -49,7 +51,7 @@ export default () => {
 
   elements.form.addEventListener('submit', (e) => {
     e.preventDefault();
-    watchedState.status = 'filling';
+    watchedState.formState.status = 'filling';
     const formData = new FormData(e.target);
     const enteredValue = formData.get('url').trim();
     const links = watchedState.feeds.map(({ url }) => url);
@@ -57,13 +59,13 @@ export default () => {
     schema
       .validate(enteredValue)
       .then((url) => {
-        watchedState.status = 'loading';
-        watchedState.error = null;
+        watchedState.formState.status = 'loading';
+        watchedState.formState.error = null;
         loadingPosts(url, watchedState);
       })
       .catch((error) => {
-        watchedState.status = 'error';
-        watchedState.error = error.message;
+        watchedState.formState.status = 'error';
+        watchedState.formState.error = error.message;
       });
   });
 
