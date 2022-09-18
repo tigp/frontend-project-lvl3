@@ -7,7 +7,7 @@
 This app can help to you reading favourite websites in [RSS format](https://en.wikipedia.org/wiki/RSS).
 Checks entered links for new posts every 5 second and add to reading list.
 
-### Installing:
+### **Installing**:
 ```
 git clone https://github.com/tigp/frontend-project-lvl3.git
 make install
@@ -24,4 +24,4 @@ make start
 - axios
 - i18next
 
-### [RSS aggregator](https://rss-app-tawny.vercel.app/)
+### [application's link](https://rss-app-tawny.vercel.app/)
