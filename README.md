@@ -23,5 +23,3 @@ make start
 - yup validation
 - axios
 - i18next
-
-### [application's link](https://rss-app-tawny.vercel.app/)
